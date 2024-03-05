@@ -35,7 +35,6 @@ jobs:
     - name: Apply permissions
       run: sudo chmod +x *.sh
     - name: run PostgreSQL
-      shell: bash-wrapper {0}
       run: ./runPostgresql.sh
     - name: Build with Gradle Wrapper
       run: ./gradlew build
