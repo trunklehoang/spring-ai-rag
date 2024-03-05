@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2019 Sven Loesekann Licensed under the Apache License, Version 
+	2.0 (the "License"); you may not use this file except in compliance with 
+	the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+	<changeSet author="angular2guy" id="9">
+		<createTable tableName="artist">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="full_name" type="varchar(120)" />
+			<column name="first_name" type="varchar(50)" />
+			<column name="middle_name" type="varchar(50)" />
+			<column name="last_name" type="varchar(70)" />
+			<column name="nationality" type="varchar(40)" />
+			<column name="style" type="varchar(50)" />
+			<column name="birth" type="int" />
+			<column name="death" type="int" />
+		</createTable>
+	</changeSet>
+	<!-- <changeSet author="angular2guy" id="5"> <createSequence sequenceName="document_seq" 
+		incrementBy="50" startValue="1000" /> </changeSet> -->
+	<changeSet id="10" author="angular2guy">
+		<createTable tableName="museum">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(50)" />
+			<column name="address" type="varchar(70)" />
+			<column name="city" type="varchar(50)" />
+			<column name="state" type="varchar(50)" />
+			<column name="postal" type="varchar(10)" />
+			<column name="country" type="varchar(50)" />
+			<column name="phone" type="varchar(30)" />
+			<column name="url" type="varchar(256)" />
+		</createTable>
+	</changeSet>
+	<changeSet id="11" author="angular2guy">
+		<createTable tableName="museum_hours">
+			<column name="museum_id" type="bigint">
+				<constraints nullable="false"
+					foreignKeyName="fk_museum_hours_museum_id" references="museum(id)" />
+			</column>
+			<column name="day" type="varchar(10)" />
+			<column name="open" type="varchar(12)" />
+			<column name="close" type="varchar(12)" />
+		</createTable>
+	</changeSet>
+	<changeSet id="12" author="angular2guy">
+		<createTable tableName="work">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(80)" />
+			<column name="artist_id" type="bigint">
+				<constraints nullable="false"
+					foreignKeyName="fk_work_artist_id" references="artist(id)" />
+			</column>
+			<column name="style" type="varchar(40)" />
+			<column name="museum_id" type="bigint">
+				<constraints nullable="false"
+					foreignKeyName="fk_work_museum_id" references="museum(id)" />
+			</column>
+			<column name="width" type="int" />
+			<column name="height" type="int" />
+		</createTable>
+	</changeSet>
+	<changeSet id="13" author="angular2guy">
+		<createTable tableName="subject">
+			<column name="work_id" type="bigint" >
+			<constraints nullable="false"
+					foreignKeyName="fk_subject_work_id" references="work(id)" />
+			</column>
+			<column name="subject" type="varchar(50)" />
+		</createTable>
+	</changeSet>
+	<changeSet id="14" author="angular2guy">
+		<createTable tableName="work_link">
+			<column name="work_id" type="bigint" >
+			<constraints nullable="false"
+					foreignKeyName="fk_work_link_work_id" references="work(id)" />
+			</column>
+			<column name="name" type="varchar(80)" />
+			<column name="artist_id" type="bigint">
+				<constraints nullable="false"
+					foreignKeyName="fk_work_link_artist_id" references="artist(id)" />
+			</column>
+			<column name="style" type="varchar(40)" />
+			<column name="museum_id" type="bigint">
+				<constraints nullable="false"
+					foreignKeyName="fk_work_museum_id" references="museum(id)" />
+			</column>
+			<column name="image_link" type="varchar(256)" />
+		</createTable>
+	</changeSet>
+	<changeSet author="angular2guy" id="15"> 
+		<createSequence sequenceName="table_metadata_seq" incrementBy="50" startValue="1000" /> 
+	</changeSet>
+	<changeSet id="16" author="angular2guy">
+		<createTable tableName="table_metadata">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="table_name" type="varchar(40)"/>
+			<column name="table_description" type="varchar(1024)"/>
+			<column name="table_ddl" type="varchar(8192)"/>
+		</createTable>
+	</changeSet>
+	<changeSet author="angular2guy" id="17"> 
+		<createSequence sequenceName="column_metadata_seq"	incrementBy="50" startValue="1000" /> 
+	</changeSet>
+	<changeSet id="18" author="angular2guy">
+		<createTable tableName="column_metadata">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="column_name" type="varchar(40)"/>
+			<column name="column_description" type="varchar(1024)"/>
+			<column name="column_primary_key" type="boolean"/>
+			<column name="reference_table_name" type="varchar(40)"/>
+			<column name="reference_table_column" type="varchar(1024)"/>
+			<column name="table_metadata_id" type="bigint">
+				<constraints nullable="false"
+					foreignKeyName="fk_column_metadata_table_metadata_id" references="table_metadata(id)" />
+			</column>
+		</createTable>
+	</changeSet>
+</databaseChangeLog>
