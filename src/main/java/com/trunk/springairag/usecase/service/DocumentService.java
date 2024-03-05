@@ -16,14 +16,14 @@ import java.util.Map;
 public class DocumentService {
     private final ChatClient chatClient;
 
-    private static final String ollamaPrompt = """ 
+    private static final String PROMPT = """ 
 			You're assisting with questions about documents in a catalog.
 			Use the information from the DOCUMENTS section to provide accurate answers.
 			If unsure, simply state that you don't know." + " {prompt}"
 			""";
 
     public Message getSystemMessage(String prompt) {
-        SystemPromptTemplate systemPromptTemplate =  new SystemPromptTemplate(this.ollamaPrompt);
+        SystemPromptTemplate systemPromptTemplate =  new SystemPromptTemplate(PROMPT);
         Prompt promptCommand = new Prompt(List.of(systemPromptTemplate.createMessage(Map.of("prompt", prompt))));
         ChatResponse response = chatClient.call(promptCommand);
         return response.getResult().getOutput();
