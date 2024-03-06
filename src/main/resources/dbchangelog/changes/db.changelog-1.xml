@@ -38,18 +38,18 @@
 		<createSequence sequenceName="document_seq" incrementBy="50"
 			startValue="1000" />
 	</changeSet>
-	<changeSet id="6" author="angular2guy">
-		<createTable tableName="vector_store">
-			<column name="id" type="uuid" defaultValueComputed="uuid_generate_v4 ()">
-				<constraints primaryKey="true"/> 
-			</column>
-			<column name="content" type="text"/>			
-			<column name="metadata" type="json"/>				
-			<column name="embedding" type="vector(1536)">
-				<constraints notNullConstraintName="vectorstore_embedding_type_notnull" nullable="false"/>
-			</column>
-		</createTable>
-	</changeSet>
+<!--	<changeSet id="6" author="angular2guy">-->
+<!--		<createTable tableName="vector_store">-->
+<!--			<column name="id" type="uuid" defaultValueComputed="uuid_generate_v4 ()">-->
+<!--				<constraints primaryKey="true"/> -->
+<!--			</column>-->
+<!--			<column name="content" type="text"/>			-->
+<!--			<column name="metadata" type="json"/>				-->
+<!--			<column name="embedding" type="vector(1536)">-->
+<!--				<constraints notNullConstraintName="vectorstore_embedding_type_notnull" nullable="false"/>-->
+<!--			</column>-->
+<!--		</createTable>-->
+<!--	</changeSet>-->
 	<changeSet id="7" author="angular2guy">
 		<sql>CREATE INDEX vectorstore_embedding_index ON vector_store USING HNSW (embedding vector_cosine_ops);</sql>
 	</changeSet>

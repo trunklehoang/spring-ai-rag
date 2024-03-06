@@ -16,4 +16,8 @@ public class DocumentController {
     public String postDocumentSearch(@PathVariable("prompt") String prompt) {
         return this.documentService.getSystemMessage(prompt).getContent();
     }
+    @GetMapping("/rag/{prompt}")
+    public String postRAGDocumentSearch(@PathVariable("prompt") String prompt) {
+        return this.documentService.getRAGSystemMessage(prompt).getContent();
+    }
 }
