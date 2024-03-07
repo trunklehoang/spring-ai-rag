@@ -20,4 +20,16 @@ public class DocumentController {
     public String postRAGDocumentSearch(@PathVariable("prompt") String prompt) {
         return this.documentService.getRAGSystemMessage(prompt).getContent();
     }
+
+
+    @GetMapping("/search/similaritySearch/{message}")
+    public String similaritySearch(@PathVariable("message") String message) {
+        return this.documentService.similaritySearch(message).getContent();
+    }
+
+    @GetMapping("load")
+    public String postDocumentSearch() {
+         this.documentService.loadDocuments();
+         return "success";
+    }
 }

@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.util.Map;
-
 @Configuration
 public class ApplicationConfig {
 @Bean
@@ -25,7 +23,7 @@ public VectorStore vectorStore(JdbcTemplate jdbcTemplate, EmbeddingClient embedd
         return new PostgresMlEmbeddingClient(jdbcTemplate,
                 PostgresMlEmbeddingOptions.builder() // huggingface transformer model name.
                         .withVectorType(PostgresMlEmbeddingClient.VectorType.PG_VECTOR) //vector type in PostgreSQL.
-                        .withKwargs(Map.of("device", "cpu")) // optional arguments.
+//                        .withKwargs(Map.of("device", "cpu")) // optional arguments.
                         .withMetadataMode(MetadataMode.EMBED) // Document metadata mode.
                         .build());    }
 }
