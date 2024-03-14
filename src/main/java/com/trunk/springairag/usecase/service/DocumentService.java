@@ -36,8 +36,10 @@ public class DocumentService {
 give a comprehensive answer to the question.
 If the answer is contained in the context, also report the source URL.
 If the answer cannot be deduced from the context, do not give an answer.</s>
+Context:{ocr}
 <|user|>
-  Question:from + {ocr} + retrieve two value the date and total amount in the json format
+  Question:retrieve two value the date and total amount and response exactly the json format contain two field date and total_amount
+  </s>
 """;
     public Message getSystemMessage(String prompt) throws IOException {
         Resource resource = new ClassPathResource("ocr/" + prompt + ".json"); // Adjust folder path as needed
