@@ -6,10 +6,12 @@ import org.springframework.ai.chat.ChatResponse;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
+import org.springframework.ai.ollama.api.OllamaApi;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,14 +25,10 @@ public class DocumentService {
     private final ChatClient chatClient;
 
     private static final String PROMPT = """ 
-             Use the following pieces of information to answer the user's question.
-                 If you don't know the answer, just say that you don't know, don't try to make up an answer.
-                        
-                 Context: {context}
-                 Question: from + {ocr} + retrieve two value the date and total amount in the json format
-                 Only return the helpful answer below and nothing else.
-                 Helpful answer:
-             """;
+<|user|>
+  Question:retrieve two value the date and total amount and response exactly the json format contain two field date and total_amount
+  images: [{image}]
+""";
     private static final String PROMPT2 ="""
 <|system|>Using the information contained in the context,
 give a comprehensive answer to the question.
@@ -61,5 +59,25 @@ Context:{ocr}
         Prompt promptCommand = new Prompt(List.of(systemPromptTemplate.createMessage(Map.of("ocr", ocr))));
         ChatResponse response = chatClient.call(promptCommand);
         return response.getResult().getOutput();
+    }
+
+    public OllamaApi.Message getSystemMessageFromImage(MultipartFile image) throws IOException {
+        OllamaApi ollamaApi =
+                new OllamaApi("http://localhost:11434");
+
+// Sync request
+        var request = OllamaApi.ChatRequest.builder("llava")
+                .withStream(false) // not streaming
+                .withMessages(List.of(
+                        OllamaApi.Message.builder(OllamaApi.Message.Role.USER)
+                                .withContent("retrieve two value the date and total amount and response exactly the json format contain two field date and total_amount")
+                                .withImages(List.of(image.getBytes()))
+                                .build())).build();
+
+        OllamaApi.ChatResponse response = ollamaApi.chat(request);
+//        SystemPromptTemplate systemPromptTemplate =  new SystemPromptTemplate(PROMPT);
+//        Prompt promptCommand = new Prompt(List.of(systemPromptTemplate.createMessage(Map.of("image", Base64.getEncoder().encode(image.getBytes())))));
+//        ChatResponse response = chatClient.call(promptCommand);
+        return response.message();
     }
 }

@@ -2,10 +2,8 @@ package com.trunk.springairag.adapter.controller;
 
 import com.trunk.springairag.usecase.service.DocumentService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -17,5 +15,9 @@ public class DocumentController {
     @GetMapping("/search/{prompt}")
     public String postDocumentSearch(@PathVariable("prompt") String prompt) throws IOException {
         return this.documentService.getSystemMessage(prompt).getContent();
+    }
+    @PostMapping("/ocr/")
+    public String postDocumentSearch(@RequestBody MultipartFile image) throws IOException {
+        return this.documentService.getSystemMessageFromImage(image).content();
     }
 }
