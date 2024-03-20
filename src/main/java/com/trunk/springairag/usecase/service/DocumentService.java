@@ -26,8 +26,7 @@ public class DocumentService {
 
     private static final String PROMPT = """ 
 <|user|>
-  Question:retrieve two value the date and total amount and response exactly the json format contain two field date and total_amount
-  images: [{image}]
+  Question:read the text and extract two value the date and total amount and response exactly the json format contain two field date and total_amount
 """;
     private static final String PROMPT2 ="""
 <|system|>Using the information contained in the context,
@@ -64,20 +63,15 @@ Context:{ocr}
     public OllamaApi.Message getSystemMessageFromImage(MultipartFile image) throws IOException {
         OllamaApi ollamaApi =
                 new OllamaApi("http://localhost:11434");
-
-// Sync request
         var request = OllamaApi.ChatRequest.builder("llava")
                 .withStream(false) // not streaming
                 .withMessages(List.of(
                         OllamaApi.Message.builder(OllamaApi.Message.Role.USER)
-                                .withContent("retrieve two value the date and total amount and response exactly the json format contain two field date and total_amount")
+                                .withContent(PROMPT)
                                 .withImages(List.of(image.getBytes()))
-                                .build())).build();
+                                .build())).withFormat("json").build();
 
         OllamaApi.ChatResponse response = ollamaApi.chat(request);
-//        SystemPromptTemplate systemPromptTemplate =  new SystemPromptTemplate(PROMPT);
-//        Prompt promptCommand = new Prompt(List.of(systemPromptTemplate.createMessage(Map.of("image", Base64.getEncoder().encode(image.getBytes())))));
-//        ChatResponse response = chatClient.call(promptCommand);
         return response.message();
     }
 }
