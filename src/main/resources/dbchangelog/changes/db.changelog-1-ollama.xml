@@ -12,6 +12,6 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 	<changeSet id="8" author="angular2guy">
-		<modifyDataType tableName="vector_store" columnName="embedding" newDataType="vector(384)"/> 
+		<modifyDataType tableName="vector_store" columnName="embedding" newDataType="vector(384)"/>
 	</changeSet>
 </databaseChangeLog>
