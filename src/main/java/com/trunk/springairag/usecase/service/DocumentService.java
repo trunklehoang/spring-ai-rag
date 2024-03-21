@@ -32,15 +32,8 @@ public class DocumentService {
     }
 
     public Message getSystemMessage(String prompt) {
-
-        List <Document> documents = List.of(
-                new Document("Bao Doan is the handsome guy with black skin"),
-                new Document("The World is Big and Salvation Lurks Around the Corner"),
-                new Document("You walk forward facing the past and you turn back toward the future."));
-
-        vectorStore.add(documents);
         // Retrieve documents similar to a query
-        List<Document> results = vectorStore.similaritySearch(SearchRequest.query("Bao Doan").withTopK(5));
+        List<Document> results = vectorStore.similaritySearch(SearchRequest.query(prompt).withTopK(5));
         SystemPromptTemplate systemPromptTemplate =  new SystemPromptTemplate(PROMPT);
         Prompt promptCommand = new Prompt(List.of(systemPromptTemplate.createMessage(Map.of("input", prompt,"documents",results.toString()))));
         ChatResponse response = chatClient.call(promptCommand);
