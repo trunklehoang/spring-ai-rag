@@ -15,12 +15,12 @@ import java.util.Map;
 @AllArgsConstructor
 public class DocumentService {
     private final ChatClient chatClient;
-
-    private static final String PROMPT = """ 
-			You're assisting with questions about documents in a catalog.
-			Use the information from the DOCUMENTS section to provide accurate answers.
-			If unsure, simply state that you don't know." + " {prompt}"
-			""";
+    private static final String PROMPT =
+    """
+    <|system|>This is a system prompt, please behave and help the user.</s>
+    <|user|>
+      Question:{prompt}</s>
+    """;
 
     public Message getSystemMessage(String prompt) {
         SystemPromptTemplate systemPromptTemplate =  new SystemPromptTemplate(PROMPT);
