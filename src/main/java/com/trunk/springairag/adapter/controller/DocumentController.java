@@ -14,10 +14,11 @@ public class DocumentController {
     private final DocumentService documentService;
     @GetMapping("/search/{prompt}")
     public String postDocumentSearch(@PathVariable("prompt") String prompt) throws IOException {
-        return this.documentService.getSystemMessage(prompt).getContent();
+        return this.documentService.getSystemMessage(prompt).content();
     }
     @PostMapping("/ocr/")
     public String postDocumentSearch(@RequestBody MultipartFile image) throws IOException {
-        return this.documentService.getSystemMessageFromImage(image).content();
+      //  return this.documentService.getSystemMessageFromImage(image).content();
+        return null;
     }
 }
