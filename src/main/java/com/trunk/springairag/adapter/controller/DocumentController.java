@@ -14,7 +14,7 @@ public class DocumentController {
     private final DocumentService documentService;
     @GetMapping("/search/{prompt}")
     public String postDocumentSearch(@PathVariable("prompt") String prompt) throws IOException {
-        return this.documentService.getSystemMessage(prompt).content();
+        return this.documentService.getSystemMessage(prompt);
     }
     @PostMapping("/ocr/")
     public String postDocumentSearch(@RequestBody MultipartFile image) throws IOException {
