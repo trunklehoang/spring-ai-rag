@@ -27,9 +27,13 @@ If the answer is contained in the context.
 If the answer cannot be deduced from the context, do not give an answer.
 """;
     private static final String userText = """
-  Context:{ocr}
-  Question:retrieve two value the date and total amount and response exactly the json format contain two field date and total_amount
-    """;
+              Task: extract the date and total amount from the text.
+              Instructions:
+              1. summary the date and total amount from the extracted text in the Context.
+              2. Format the extracted information into a JSON object.
+              3. If not recognized, return an empty JSON object.
+            Context:{ocr}
+              """;
     public String getSystemMessage(String prompt) throws IOException {
         Resource resource = new ClassPathResource("ocr/" + prompt + ".json"); // Adjust folder path as needed
         String ocr = "";
@@ -57,10 +61,7 @@ If the answer cannot be deduced from the context, do not give an answer.
                 .withMessages(List.of(
                         OllamaApi.Message.builder(OllamaApi.Message.Role.USER)
                                 .withContent(systemMessage.getContent())
-                                .build(),
-                        OllamaApi.Message.builder(OllamaApi.Message.Role.SYSTEM)
-                        .withContent(PROMPT2)
-                        .build())).withFormat("json").build();
+                                .build())).withFormat("json").build();
 
         OllamaApi.ChatResponse response = ollamaApi.chat(request);
         return response.message().content();
