@@ -1,6 +1,7 @@
 package com.trunk.springairag.usecase.service;
 
 import lombok.AllArgsConstructor;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.ai.chat.ChatClient;
 import org.springframework.ai.chat.ChatResponse;
 import org.springframework.ai.chat.messages.Message;
@@ -39,7 +40,8 @@ Also include complex questions that are relevant to the content in the image, fo
 Provide detailed answers when answering complex questions. For example, give detailed examples or reasoning steps to make the content more convincing and well-organized.  You can include multiple paragraphs if necessary.
             """;
     private static final String USER_PROMPT = """
-read the text and extract two value the date and total amount and response exactly the json format contain two field date and total_amount
+read the text and extract two value the date and total amount and response exactly the json format contain two field date and total_amount.
+Return empty json if not recognize that value
 """;
     private static final String PROMPT2 ="""
 <|system|>Using the information contained in the context,
@@ -73,7 +75,7 @@ Context:{ocr}
         return response.getResult().getOutput();
     }
 
-    public OllamaApi.Message getSystemMessageFromImage(MultipartFile image) throws IOException {
+    public String getSystemMessageFromImage(MultipartFile image) throws IOException {
         OllamaApi ollamaApi =
                 new OllamaApi("http://localhost:11434");
         var request = OllamaApi.ChatRequest.builder("llava")
@@ -81,14 +83,14 @@ Context:{ocr}
                 .withMessages(List.of(
                         OllamaApi.Message.builder(OllamaApi.Message.Role.SYSTEM)
                                 .withContent(PROMPT)
-                                .withImages(List.of(image.getBytes()))
+//                                .withImages(List.of(Base64.encodeBase64String(image.getBytes())))
                                 .build(),
                         OllamaApi.Message.builder(OllamaApi.Message.Role.USER)
                                 .withContent(USER_PROMPT)
-//                                .withImages(List.of(image.getBytes()))
+                                .withImages(List.of(Base64.encodeBase64String(image.getBytes())))
                                 .build())).withFormat("json").build();
 
         OllamaApi.ChatResponse response = ollamaApi.chat(request);
-        return response.message();
+        return response.message().content();
     }
 }

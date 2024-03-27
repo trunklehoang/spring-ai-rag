@@ -18,6 +18,6 @@ public class DocumentController {
     }
     @PostMapping("/ocr/")
     public String postDocumentSearch(@RequestBody MultipartFile image) throws IOException {
-        return this.documentService.getSystemMessageFromImage(image).content();
+        return this.documentService.getSystemMessageFromImage(image);
     }
 }
