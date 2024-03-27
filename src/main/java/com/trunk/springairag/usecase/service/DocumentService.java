@@ -1,7 +1,6 @@
 package com.trunk.springairag.usecase.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.ai.chat.ChatClient;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;
 import org.springframework.ai.ollama.api.OllamaApi;
@@ -19,24 +18,16 @@ import java.util.Map;
 @Service
 @AllArgsConstructor
 public class DocumentService {
-    private final ChatClient chatClient;
-    private static final String PROMPT2 ="""
-Using the information contained in the context,
-give a comprehensive answer to the question.
-If the answer is contained in the context.
-If the answer cannot be deduced from the context, do not give an answer.
-""";
-    private static final String userText = """
+    private static final String TEXT = """
               Task: extract the date and total amount from the text.
               Instructions:
-              1. summary the date and total amount from the extracted text in the Context.
-              2. Format the extracted information into a JSON object.
-              3. If not recognized, return an empty JSON object.
+              1. summary the date and total amount from the extracted text in the Context and return JSON object with two field : date & total_amount
+              2. If not recognized, return an empty JSON object.
             Context:{ocr}
               """;
     public String getSystemMessage(String prompt) throws IOException {
         Resource resource = new ClassPathResource("ocr/" + prompt + ".json"); // Adjust folder path as needed
-        String ocr = "";
+        String ocr;
         // Check if the resource exists
         if (resource.exists()) {
             try (InputStream inputStream = resource.getInputStream()) {
@@ -52,7 +43,7 @@ If the answer cannot be deduced from the context, do not give an answer.
         }
 
 
-        SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate(userText);
+        SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate(TEXT);
         Message systemMessage = systemPromptTemplate.createMessage(Map.of("ocr", ocr));
         OllamaApi ollamaApi =
                 new OllamaApi("http://localhost:11434");
