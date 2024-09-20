@@ -1,0 +1,4 @@
+ pdftoppm -jpeg birthday.pdf birthday
+
+
+ sips -s format jpeg image_6.png --out output_6.jpeg
