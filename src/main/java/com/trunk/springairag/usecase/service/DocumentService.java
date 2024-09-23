@@ -19,18 +19,18 @@ import java.util.Map;
 @AllArgsConstructor
 public class DocumentService {
     private static final String TEXT = """
-        Task: Extract the date and total amount from the OCR text and categorize the expense.
+        Task: Extract the categorize the expense with confident rate
         Instructions:
-        1. Summarize the extracted date and total amount from the provided OCR text in the Context.
+        1. Summarize the categorize from the provided OCR text in the Context.
             Analyze the extracted text for keywords or phrases related to the following categories:
-            a. Travelling: Look for keywords like "taxi," "flight," "car rental," "bus," "airport."
-            b. Lodging and Living: Look for keywords like "hotel," "accommodation," "stay," "rental."
-            c. Telecom: Look for keywords like "phone," "internet," "mobile," "data," "SIM."
-            d. IT Equipment: Look for keywords like "laptop," "tablet," "hardware," "keyboard."
-            e. Train Ticket: Look for keywords like "train," "rail," "ticket," "station.","Terminal-ID"
-            f. Plane: Look for "flight," "boarding pass," "airfare," "airport."
-            g. Meals: Look for keywords like "food," "restaurant," "dining," "meal," "breakfast," "lunch," "dinner."
-            h. Team Events: Look for "team," "event," "outing," "celebration."
+            a. Travelling: Look for keywords like taxi, flight, car rental, bus, airport.
+            b. Lodging and Living: Look for keywords like hotel, accommodation, stay, rental.
+            c. Telecom: Look for keywords like phone, internet, mobile, data, SIM.
+            d. IT Equipment: Look for keywords like laptop, tablet, hardware, keyboard.
+            e. Train Ticket: Look for keywords like train, rail, ticket, station.,Terminal-ID,www.sbb.ch
+            f. Plane: Look for flight, boarding pass, airfare, airport.
+            g. Meals: Look for keywords like food, restaurant, dining, meal, breakfast, lunch, dinner,BUFFET
+            h. Team Events: Look for team, event, outing, celebration.
         2. If not recognized, return an empty JSON object.
         Context:{ocr}
         """;
