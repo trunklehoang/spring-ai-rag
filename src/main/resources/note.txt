@@ -2,3 +2,9 @@
 
 
  sips -s format jpeg image_6.png --out output_6.jpeg
+
+
+ -----------
+ extracted fields
+
+ total ammount , suplier , issue date, currency , items[]
